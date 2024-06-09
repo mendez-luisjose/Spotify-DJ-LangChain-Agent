@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 from typing import List
 from langchain.memory import ConversationBufferMemory 
 from langchain_groq import ChatGroq
@@ -10,12 +9,10 @@ from langchain.prompts import MessagesPlaceholder
 from langchain_google_genai import ChatGoogleGenerativeAI
 from prompts import SYSTEM_MESSAGE
 
-# Load .env variables
-load_dotenv()
 
 # LLM Initialization
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
 #llm = ChatGroq(temperature=0, model_name="llama3-8b-8192", groq_api_key=GROQ_API_KEY, max_retries=5)
 #llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
