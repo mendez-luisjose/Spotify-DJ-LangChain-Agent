@@ -16,3 +16,4 @@ scikit-learn
 fuzzywuzzy
 audio_recorder_streamlit
 deepgram-sdk
+sentence-transformers
