@@ -1,16 +1,14 @@
 import requests
-from dotenv import load_dotenv
 import os
 import string
+import streamlit as st
 from deepgram import (
     DeepgramClient,
     PrerecordedOptions,
     FileSource,
 )
 
-load_dotenv()
-
-DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
+DEEPGRAM_API_KEY = st.secrets["DEEPGRAM_API_KEY"]
 
 DEEPGRAM_URL = "https://api.deepgram.com/v1/speak?model=aura-luna-en"
 
