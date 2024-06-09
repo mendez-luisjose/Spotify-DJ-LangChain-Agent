@@ -63,9 +63,11 @@ MAX_TRACKS = 10 # tracks to randomly select from an artist
 MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
-                     client_secret=client_secret, redirect_uri=redirect_uri, scope=scope))
+#sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
+#                     client_secret=client_secret, redirect_uri=redirect_uri, scope=scope))
 
+sp = spotipy.Spotify(auth="BQBVgdg1LHj9MlMl30L0wWpI2yecKE7mQ-N1QTDLnYB7P-E8AGB_4VcVy0PCv_O2oaJgZTt5epl_9zGIX3MTupk9fSo80CjVZvAvOghM0wjxt_X10rM5fH6teUlxU3NC6iRm8twqz8-XVY7kYdvw2ILhRJmJvQQ0cV1u9iHydd2_IznLYBY8A_iwbMYDasfYt33lvMnXONvEKmLaYsFi1ACq5Lx5XbAncyOpqb64dIRK6vnSacaHCujWGxfyGgJJs7q8v6c-ZFUr2_leKYoBuQ
+")
 MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
 GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
 
