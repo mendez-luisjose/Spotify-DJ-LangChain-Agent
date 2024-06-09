@@ -1,7 +1,7 @@
 streamlit
 langchain_community
 langchain
-BeautifulSoup4
+beautifulsoup4==4.12.2
 faiss-cpu
 altair
 langchain-google-genai
@@ -10,10 +10,13 @@ langchain-groq
 langchainhub
 google-api-python-client
 httpx[http2]
-spotipy
-lyricsgenius
-scikit-learn
-fuzzywuzzy
+spotipy==2.23.0
 audio_recorder_streamlit
 deepgram-sdk
-sentence-transformers
+sentence_transformers==2.2.2
+fuzzywuzzy==0.18.0
+numpy==1.25.1
+scikit-learn==1.3.0
+lyricsgenius==3.0.1
+pydantic==1.10.11
+huggingface_hub==0.16.4
