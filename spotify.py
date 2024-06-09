@@ -1,6 +1,5 @@
 import os
 import traceback
-from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.exceptions import SpotifyException
@@ -20,16 +19,15 @@ import streamlit as st
 import base64
 from utils import text_to_speech
 import time
+import streamlit as st
 
-load_dotenv()
 
 # Spotify configs
-client_id = os.getenv("SPOTIFY_CLIENT_ID")
-client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
-redirect_uri = os.getenv("SPOTIFY_REDIRECT_URL")
-GENIUS_TOKEN = os.getenv("GENIUS_TOKEN")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-
+client_id = st.secrets["SPOTIFY_CLIENT_ID"]
+client_secret = st.secrets["SPOTIFY_CLIENT_SECRET"]
+redirect_uri = st.secrets["SPOTIFY_REDIRECT_URL"]
+GENIUS_TOKEN = st.secrets["GENIUS_TOKEN"]
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
 #scope = ['playlist-modify-public', 'user-modify-playback-state']
 scope = [
