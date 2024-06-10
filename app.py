@@ -51,8 +51,6 @@ def main() :
         st.info("This Agent can Controls the Music, also Plays specifics Songs, Playlists, Albums or Artists.")
 
         st.markdown("---------")
-
-        st.warning("Speak very Clearly to the Microphone. To Record your Voice press the Microphone Icon.")
         
         chat_with_voice = st.checkbox("Talk with your Voice 🎙️", value=False)
 
@@ -74,9 +72,9 @@ def main() :
 
         elif chat_with_voice!=True :
             st.session_state.speech_to_text_history = []
+
+        st.warning("Speak very Clearly to the Microphone. To Record your Voice press the Microphone Icon.")
             
-
-
     for message in st.session_state.chat_history :
         if isinstance(message, HumanMessage) :
             with st.chat_message("user") :
