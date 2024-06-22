@@ -59,14 +59,14 @@ MAX_ARTISTS = 4 # sp.recommendations() seeds: 4/5 artists, 1/5 genre
 NUM_ALBUMS = 20 # maximum number of albums to retrieve from an artist
 MAX_TRACKS = 10 # tracks to randomly select from an artist
 
-if (st.session_state.spotify_token != "") :
-    MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
-    
-    sp = spotipy.Spotify(auth=st.session_state.spotify_token)
+MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
 
-    MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
-    GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
+sp = st.session_state.sp
+
+MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
+GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
+
 
 #MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
 #llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
