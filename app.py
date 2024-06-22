@@ -1,15 +1,25 @@
 import streamlit as st
+
 st.set_page_config(page_title="Spotify DJ 🎶", page_icon="🎵", layout="wide")
 
+if "spotify_token" not in st.session_state :
+    st.session_state.spotify_token = ""
+
+if "agent" not in st.session_state :
+    st.session_state.agent = None  
+
+if "sp" not in st.session_state :
+    st.session_state.sp = None  
+
 from langchain_core.messages import AIMessage, HumanMessage
-from ai_agents import initialize_agent
-from ai_tools import music_player_tools
 from prompts import JJ_MESSAGE
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 from audio_recorder_streamlit import audio_recorder
 import time
 from utils import speech_to_text
 import os
+from urllib.parse import urlparse, parse_qs
+import spotipy
 
 SCOPE = [
     'user-library-read',
@@ -19,7 +29,7 @@ SCOPE = [
     'user-top-read'
 ]
 
-agent = initialize_agent(tools=music_player_tools)
+#agent = initialize_agent(tools=music_player_tools)
 
 if "chat_history" not in st.session_state :
     st.session_state.chat_history = [AIMessage(content=JJ_MESSAGE)]
@@ -27,12 +37,9 @@ if "chat_history" not in st.session_state :
 if "speech_to_text_history" not in st.session_state :
     st.session_state.speech_to_text_history = []
 
-if "spotify_token" not in st.session_state :
-    st.session_state.spotify_token = ""
-
 def get_dj_response(user_query) :
     st_callback = StreamlitCallbackHandler(st.container())
-    result = agent.invoke(
+    result = st.session_state.agent.invoke(
         {"input": user_query}, {"callbacks": [st_callback]})
     result = result["output"]
     return result
@@ -63,6 +70,8 @@ def main() :
 
         st.markdown("---------")
 
+        st.warning("🛠️ Set the Credentials of your Spotify ID Account")
+
         spotify_id = st.text_input("Spotify ID", type="password")
 
         if (spotify_id != None and spotify_id != "") :
@@ -72,7 +81,7 @@ def main() :
             )
 
             st.markdown(f'''
-            🧑🏻‍💻 Click [Here]({auth_url}) to Activate Spotify Token
+            ⚙️ Click [Here]({auth_url}) to Activate the Spotify Token
             ''')
             
             spotify_url = st.text_input("Spotify URL", type="password")
@@ -84,9 +93,20 @@ def main() :
 
                 st.session_state.spotify_token = access_token
 
-                st.warning("Speak very Clearly to the Microphone. To Record your Voice press the Microphone Icon.")
+                st.session_state.sp = spotipy.Spotify(auth=st.session_state.spotify_token)
+
+                from ai_agents import initialize_agent
+                from ai_tools import music_player_tools
+
+                agent = initialize_agent(tools=music_player_tools)
+
+                st.session_state.agent = agent
                 
+                st.success("✅ Spotify Account was Activated Successfully")
+                st.markdown("---------")
+
                 chat_with_voice = st.checkbox("Talk with your Voice 🎙️", value=False)
+                st.warning("Speak very Clearly to the Microphone. To Record your Voice press the Microphone Icon.")
 
                 if chat_with_voice :
                     footer_container = st.container()
@@ -164,8 +184,6 @@ def main() :
                 message_placeholder.info(full_response)
 
             st.session_state.chat_history.append(AIMessage(content=ai_response))
-
-
 
 if __name__ == "__main__" :
     main()
