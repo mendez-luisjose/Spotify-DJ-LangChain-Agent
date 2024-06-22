@@ -59,16 +59,24 @@ MAX_ARTISTS = 4 # sp.recommendations() seeds: 4/5 artists, 1/5 genre
 NUM_ALBUMS = 20 # maximum number of albums to retrieve from an artist
 MAX_TRACKS = 10 # tracks to randomly select from an artist
 
+if (st.session_state.spotify_token != "") :
+    MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
+    
+    sp = spotipy.Spotify(auth=st.session_state.spotify_token)
 
-MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
+    MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
+    GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
+
+#MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # smaller BERT
+#llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0, google_api_key=GOOGLE_API_KEY, convert_system_message_to_human=True)
 
 #sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
 #                     client_secret=client_secret, redirect_uri=redirect_uri, scope=scope))
 
-sp = spotipy.Spotify(auth=st.secrets["SPOTIFY_TOKEN"])
-MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
-GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
+#sp = spotipy.Spotify(auth=st.secrets["SPOTIFY_TOKEN"])
+#MOOD_EMBEDDINGS = MODEL.encode(MOOD_LIST)
+#GENRE_EMBEDDINGS = MODEL.encode(GENRE_LIST) 
 
 #devices = sp.devices()
 #device_id = devices['devices'][0]['id']
@@ -622,7 +630,8 @@ def start_music():
         """
         Resumes the current playback.
         """
-        sp.start_playback()
+        if (sp.currently_playing()["is_playing"]!=True) :
+            sp.start_playback()
         return "♫ Playback started! ♫"
     except spotipy.client.SpotifyException as e:
         return ("Error occurred while starting track:", e)
@@ -635,7 +644,8 @@ def pause_music():
         """
         Pauses the current playback.
         """
-        sp.pause_playback()
+        if (sp.currently_playing()["is_playing"]) :
+            sp.pause_playback()
         return "♫ Playback paused ♫"
     except spotipy.client.SpotifyException as e:
         return ("Error occurred while pausing track:", e)
@@ -648,7 +658,8 @@ def next_track():
         """
         Plays the next playback.
         """
-        sp.next_track()
+        if (sp.currently_playing()["is_playing"]) :
+            sp.next_track()
         return "♫ Successfully skipped to the next track ♫"
     except spotipy.client.SpotifyException as e:
         return ("Error occurred while skipping track:", e)
@@ -661,7 +672,8 @@ def previous_track():
         """
         Plays the previous song.
         """
-        sp.previous_track()
+        if (sp.currently_playing()["is_playing"]) :
+            sp.previous_track()
         return "♫ Successfully went back to the previous track ♫"
     except Exception as e:
         error_message = traceback.format_exc()  # Get the formatted error message
