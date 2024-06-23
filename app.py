@@ -124,8 +124,9 @@ def main() :
 
                 elif chat_with_voice!=True :
                     st.session_state.speech_to_text_history = []
+            else :
+                st.session_state.sp = None
             
-
     if (st.session_state.sp != None) : 
         for message in st.session_state.chat_history :
             if isinstance(message, HumanMessage) :
