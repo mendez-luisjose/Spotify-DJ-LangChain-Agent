@@ -611,10 +611,11 @@ def create_playlist_from_recommendations(genre_name=None, artist_name=None, trac
         track_list_str = create_track_list_str(track_uris) 
         sp.user_playlist_add_tracks(user=user_id, playlist_id=new_playlist['id'], tracks=track_uris, position=None)
         playlist_url = f"https://open.spotify.com/playlist/{new_playlist['id']}"
+        
     
         file_path = text_to_speech(f"Here is a playlist based on your taste")
         autoplay_audio(file_path)
-        time.sleep(3)
+        time.sleep(5)
 
         playlists = sp.current_user_playlists()
         playlist_dict = {playlist['name']: (playlist['id'], playlist['owner']['display_name']) for playlist in playlists['items']}
