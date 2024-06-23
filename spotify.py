@@ -583,46 +583,64 @@ def play_recommended_tracks(genre_name=None, artist_name=None, track_name=None, 
         return str(e)  
     
 def create_playlist_from_recommendations(genre_name=None, artist_name=None, track_name=None, user_mood=None):
-    """
-    Creates a playlist from recommend_tracks(). 
-    """
-    user = sp.current_user()
-    user_id = user['id']
-    user_name = user["display_name"]
-
-    playlists = sp.current_user_playlists()
-    playlist_names = [playlist['name'] for playlist in playlists["items"]]
-    chosen_theme = random.choice(THEMES)
-    playlist_name = f"{user_name}'s {chosen_theme} Playlist"
-    # ensuring the use of new adjective each time
-    while playlist_name in playlist_names:
+    try :
+        """
+        Creates a playlist from recommend_tracks(). 
+        """
+        user = sp.current_user()
+        user_id = user['id']
+        user_name = user["display_name"]
+    
+        playlists = sp.current_user_playlists()
+        playlist_names = [playlist['name'] for playlist in playlists["items"]]
         chosen_theme = random.choice(THEMES)
         playlist_name = f"{user_name}'s {chosen_theme} Playlist"
-
-    playlist_description=f"JJ AI's personalized playlist for {user_name}."
-    new_playlist = sp.user_playlist_create(user=user_id, name=playlist_name, 
-                                                    public=True, collaborative=False, description=playlist_description)
+        # ensuring the use of new adjective each time
+        while playlist_name in playlist_names:
+            chosen_theme = random.choice(THEMES)
+            playlist_name = f"{user_name}'s {chosen_theme} Playlist"
     
-    if type(user_mood) != str : 
-        user_mood = "unknown"
+        playlist_description=f"JJ AI's personalized playlist for {user_name}."
+        new_playlist = sp.user_playlist_create(user=user_id, name=playlist_name, 
+                                                        public=True, collaborative=False, description=playlist_description)
+        
+        if type(user_mood) != str : 
+            user_mood = "unknown"
+    
+        track_uris = recommend_tracks(genre_name, artist_name, track_name, user_mood)
+        track_list_str = create_track_list_str(track_uris) 
+        sp.user_playlist_add_tracks(user=user_id, playlist_id=new_playlist['id'], tracks=track_uris, position=None)
+        playlist_url = f"https://open.spotify.com/playlist/{new_playlist['id']}"
+    
+        file_path = text_to_speech(f"Here is a playlist based on your taste")
+        autoplay_audio(file_path)
+        time.sleep(3)
 
-    track_uris = recommend_tracks(genre_name, artist_name, track_name, user_mood)
-    track_list_str = create_track_list_str(track_uris) 
-    sp.user_playlist_add_tracks(user=user_id, playlist_id=new_playlist['id'], tracks=track_uris, position=None)
-    playlist_url = f"https://open.spotify.com/playlist/{new_playlist['id']}"
+        playlists = sp.current_user_playlists()
+        playlist_dict = {playlist['name']: (playlist['id'], playlist['owner']['display_name']) for playlist in playlists['items']}
+        playlist_names = [key for key in playlist_dict.keys()]
 
-    file_path = text_to_speech(f"Here is a playlist based on your taste")
-    autoplay_audio(file_path)
-    time.sleep(3)
+        # defined inside to capture user-specific playlists
+        playlist_name_embeddings = MODEL.encode(playlist_names)
+        user_playlist_embedding = MODEL.encode([playlist_name])
 
-    return f"""
-    ♫ Created *{playlist_name}* Based On:
-    {', '.join(filter(None, [genre_name, artist_name, track_name, 'Your Mood']))} ♫
-
-    **Selected Tracks:** {track_list_str}
-
-    URL to the playlist on Spotify! -> {playlist_url}
-    """
+        # compares (embedded) given name to (embedded) playlist library and outputs the closest match
+        similarity_scores = cosine_similarity(user_playlist_embedding, playlist_name_embeddings)
+        most_similar_index = similarity_scores.argmax()
+        playlist_name = playlist_names[most_similar_index]
+        playlist_id, creator_name = playlist_dict[playlist_name]
+        sp.start_playback(context_uri=f'spotify:playlist:{playlist_id}')
+    
+        return f"""
+        ♫ Created *{playlist_name}* Based On:
+        {', '.join(filter(None, [genre_name, artist_name, track_name, 'Your Mood']))} ♫
+    
+        **Selected Tracks:** {track_list_str}
+    
+        URL to the playlist on Spotify! -> {playlist_url}
+        """
+    except:
+        return "Unable to create the playlist. Please try again."
 
 
 def start_music():
