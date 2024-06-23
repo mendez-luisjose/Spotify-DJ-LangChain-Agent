@@ -90,10 +90,8 @@ def main() :
                 parsed_url = urlparse(spotify_url)
                 fragment = parsed_url.fragment
                 access_token = parse_qs(fragment)['access_token'][0]
-
-                st.session_state.spotify_token = access_token
-
-                st.session_state.sp = spotipy.Spotify(auth=st.session_state.spotify_token)
+                
+                st.session_state.sp = spotipy.Spotify(auth=access_token)
 
                 from ai_agents import initialize_agent
                 from ai_tools import music_player_tools
