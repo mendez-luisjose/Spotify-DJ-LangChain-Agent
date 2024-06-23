@@ -126,7 +126,7 @@ def main() :
                     st.session_state.speech_to_text_history = []
             
 
-    if (st.session_state.spotify_token != "") : 
+    if (st.session_state.sp != None) : 
         for message in st.session_state.chat_history :
             if isinstance(message, HumanMessage) :
                 with st.chat_message("user") :
