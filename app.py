@@ -100,6 +100,7 @@ def main() :
                 st.success("✅ Spotify Account was Activated Successfully")
                 if st.button("Restart Session", type="primary") :
                     del st.session_state["sp"]
+                    st.rerun()
                 st.markdown("---------")
 
                 chat_with_voice = st.checkbox("Talk with your Voice 🎙️", value=False)
