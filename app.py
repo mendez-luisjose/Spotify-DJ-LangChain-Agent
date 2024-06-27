@@ -67,17 +67,6 @@ def main() :
 
         st.markdown("---------")
 
-        st.write(
-            """
-            Press the Following Button to Restart your Session:
-            """
-        )
-        _, col, _ = st.columns([1, 1, 1])
-        if col.button("Restart Session", type="secondary") :
-            del st.session_state["sp"]
-            st.rerun()
-
-        st.markdown("---------")
         st.warning("🛠️ Set the Credentials of your Spotify ID Account")
 
         spotify_id = st.text_input("Spotify ID", type="password")
@@ -133,8 +122,19 @@ def main() :
 
                 elif chat_with_voice!=True :
                     st.session_state.speech_to_text_history = []
-            else :
-                st.session_state.sp = None
+        else :
+            st.session_state.sp = None
+
+        st.write(
+            """
+            Press the Following Button to Restart your Session:
+            """
+        )
+        _, col, _ = st.columns([1, 1, 1])
+        if col.button("Restart Session", type="primary") :
+            del st.session_state["sp"]
+            st.rerun()
+
             
     if (st.session_state.sp != None) : 
         for message in st.session_state.chat_history :
