@@ -67,10 +67,17 @@ def main() :
 
         st.markdown("---------")
 
+        st.write(
+            """
+            Press the Following Button to Restart your Session. \n
+            """
+        )
         _, col, _ = st.columns([1, 1, 1])
         if col.button("Restart Session", type="primary") :
             del st.session_state["sp"]
             st.rerun()
+
+        st.markdown("---------")
 
         st.warning("🛠️ Set the Credentials of your Spotify ID Account")
 
