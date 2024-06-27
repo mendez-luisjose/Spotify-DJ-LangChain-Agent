@@ -98,7 +98,7 @@ def main() :
                 st.session_state.agent = agent
                 
                 st.success("✅ Spotify Account was Activated Successfully")
-                if st.button("Restart Session", type=["primary"]) :
+                if st.button("Restart Session", type="primary") :
                     del st.session_state["sp"]
                 st.markdown("---------")
 
