@@ -69,7 +69,7 @@ def main() :
 
         st.write(
             """
-            Press the Following Button to Restart your Session.
+            Press the Following Button to Restart your Session:
             """
         )
         _, col, _ = st.columns([1, 1, 1])
@@ -77,6 +77,7 @@ def main() :
             del st.session_state["sp"]
             st.rerun()
 
+        st.markdown("---------")
         st.warning("🛠️ Set the Credentials of your Spotify ID Account")
 
         spotify_id = st.text_input("Spotify ID", type="password")
