@@ -73,7 +73,7 @@ def main() :
             """
         )
         _, col, _ = st.columns([1, 1, 1])
-        if col.button("Restart Session", type="secundary") :
+        if col.button("Restart Session", type="secondary") :
             del st.session_state["sp"]
             st.rerun()
 
