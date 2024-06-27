@@ -65,6 +65,10 @@ def main() :
 
         st.info("This Agent can Controls the Music, also Plays specifics Songs, Playlists, Albums or Artists.")
 
+        if st.button("Restart Session", type="primary") :
+            del st.session_state["sp"]
+            st.rerun()
+
         st.markdown("---------")
 
         st.warning("🛠️ Set the Credentials of your Spotify ID Account")
@@ -98,9 +102,7 @@ def main() :
                 st.session_state.agent = agent
                 
                 st.success("✅ Spotify Account was Activated Successfully")
-                if st.button("Restart Session", type="primary") :
-                    del st.session_state["sp"]
-                    st.rerun()
+            
                 st.markdown("---------")
 
                 chat_with_voice = st.checkbox("Talk with your Voice 🎙️", value=False)
