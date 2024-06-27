@@ -67,7 +67,8 @@ def main() :
 
         st.markdown("---------")
 
-        if st.button("Restart Session", type="primary") :
+        _, col, _ = st.columns([1, 1, 1])
+        if col.button("Restart Session", type="primary") :
             del st.session_state["sp"]
             st.rerun()
 
