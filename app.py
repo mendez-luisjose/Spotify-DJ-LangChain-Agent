@@ -125,6 +125,8 @@ def main() :
         else :
             st.session_state.sp = None
 
+        st.markdown("---------")
+
         st.write(
             """
             Press the Following Button to Restart your Session:
