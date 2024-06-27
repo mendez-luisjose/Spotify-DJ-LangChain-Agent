@@ -2,9 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="Spotify DJ 🎶", page_icon="🎵", layout="wide")
 
-if "spotify_token" not in st.session_state :
-    st.session_state.spotify_token = ""
-
 if "agent" not in st.session_state :
     st.session_state.agent = None  
 
@@ -101,6 +98,8 @@ def main() :
                 st.session_state.agent = agent
                 
                 st.success("✅ Spotify Account was Activated Successfully")
+                if st.button("Restart Session", type=["primary"]) :
+                    del st.session_state["sp"]
                 st.markdown("---------")
 
                 chat_with_voice = st.checkbox("Talk with your Voice 🎙️", value=False)
