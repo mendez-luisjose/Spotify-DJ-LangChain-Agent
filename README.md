@@ -17,3 +17,7 @@ The User can also Request for Songs Recommendations, based on Mood, Artists, Son
 ## Connect
 - Linkedin: https://www.linkedin.com/in/luis-jose-mendez/
 - GitHub: https://github.com/mendez-luisjose
+
+## Credits and Inspiration: 
+- Stuart's Projects: https://www.youtube.com/watch?v=fwKukm3qjsk&t=353s
+- Devlearnllm: https://www.youtube.com/live/LSQ5fkR6B3k
