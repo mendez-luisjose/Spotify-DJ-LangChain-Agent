@@ -12,7 +12,7 @@ The User can also Request for Songs Recommendations, based on Mood, Artists, Son
 
 - App Preview: https://youtu.be/Y-X3kbWDMdM
 
-![](./langchain_app_preview.gif)
+![](./app-preview.gif)
 
 ## Connect
 - Linkedin: https://www.linkedin.com/in/luis-jose-mendez/
