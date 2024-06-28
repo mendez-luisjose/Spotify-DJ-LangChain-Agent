@@ -1,6 +1,6 @@
 # Spotify DJ Agent with LangChain
 
-[![Spotify DJ Agent with LangChain](./langchain_agent_preview.png)](https://youtu.be/Y-X3kbWDMdM)
+[![Spotify DJ Agent with LangChain](./app-preview.png)](https://youtu.be/Y-X3kbWDMdM)
 
 ## LangChain Spotify DJ Agent Powered by Gemini-Pro and Streamlit
 
