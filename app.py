@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Spotify DJ 🎶", page_icon="🎵", layout="wide")
+st.set_page_config(page_title="Spotify DJ 🎶", page_icon="🎵", layout="wide", initial_sidebar_state="expanded")
 
 if "agent" not in st.session_state :
     st.session_state.agent = None  
@@ -133,7 +133,7 @@ def main() :
             """
         )
         _, col, _ = st.columns([1, 1, 1])
-        if col.button("Restart Session", type="primary") :
+        if col.button("🗑️ Restart Session", type="primary") :
             del st.session_state["sp"]
             st.rerun()
 
